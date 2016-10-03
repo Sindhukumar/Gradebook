@@ -4,12 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Footer</title>
 </head>
 <body>
 <div id="footer">
       <div class="container">
-        <p class="text-muted"><span class="glyphicon glyphicon-volume-up" aria-hidden="true">&nbsp;Bullhorn&nbsp;&nbsp;&copy; 2016</span></p>
+        <p class="text-muted"><span class="glyphicon glyphicon-volume-up" aria-hidden="true">&nbsp;Gradebook&nbsp;&nbsp;&copy; 2016</span></p>
        </div>
    </div>
 </body>

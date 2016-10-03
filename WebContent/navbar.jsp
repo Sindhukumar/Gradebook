@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Navbar</title>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -17,7 +17,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <img src="images/bullhornlogo50x50.png" alt="Bullhorn Logo"/>&nbsp;<h2>Bullhorn</h2>
+      <img src="images/bullhornlogo50x50.png" alt="Bullhorn Logo"/>&nbsp;<h2>Gradebook</h2>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->

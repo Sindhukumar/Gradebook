@@ -17,16 +17,16 @@ import model.Gradebook;
 import model.User;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Update
  */
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+@WebServlet("/Update")
+public class Update extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public Update() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,32 +36,19 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		String nextURL = "/Login.jsp";
-		String useremail = request.getParameter("useremail");
-		String password = request.getParameter("password");
+
+		String nextURL = "/Update.jsp";
+		int gradebookID = Integer.parseInt(request.getParameter("gradebookid"));
 
 		HttpSession session = request.getSession();
 
-		User user = null;
-		session.setAttribute("user", user);
-		session.setAttribute("gravatarURL", DbUtil.getGravatarURL(useremail, 50));
-		session.setAttribute("gravatarURLsmall", new DbUtil());
-		if (DbUser.isValidUser(useremail, password)) {
-			user = DbUser.getUserByEmail(useremail);
-			session.setAttribute("user", user);
-			String role = user.getUserrole();
-			nextURL = "/Home.jsp?role="+role;
-		}
-		List <Gradebook> gradebooks ;
-		gradebooks = user.getGradebooks();
-		session.setAttribute("grades",gradebooks);
 		
-		List <Gradebook> Allgradebooks ;
-		Allgradebooks = DbGradebook.gradebook();
-		session.setAttribute("Allgrades",Allgradebooks);
+		Gradebook gradebook = DbGradebook.gradebook(gradebookID);
+		session.setAttribute("grade", gradebook);
 		
 		getServletContext().getRequestDispatcher(nextURL).forward(request, response);
 		// response.sendRedirect(request.getContextPath() + nextURL);
+	
 	
 	}
 
@@ -70,7 +57,25 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String assignment = request.getParameter("assignment");
+		String assignmenttype = request.getParameter("assignmenttype");
+		String grade = request.getParameter("grade");
+		String subject = request.getParameter("subject");
+		int gradebookid = Integer.parseInt(request.getParameter("gradebookid"));
+		HttpSession session = request.getSession();
+		Gradebook tmp=(Gradebook) session.getAttribute("grade");
+		Gradebook gradebook = new Gradebook();
+		gradebook.setAssignment(assignment);
+		gradebook.setAssignmenttype(assignmenttype);
+		gradebook.setGrade(grade);
+		gradebook.setGradebookid(gradebookid);
+		gradebook.setSubject(subject);
+		gradebook.setUser(tmp.getUser());
+		DbGradebook.update(gradebook);
+		String nextURL = "/Home.jsp";
+		getServletContext().getRequestDispatcher(nextURL).forward(request, response);
+		//doGet(request, response);
 	}
 
 }
