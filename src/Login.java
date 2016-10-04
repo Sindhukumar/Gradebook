@@ -1,5 +1,4 @@
 
-
 import java.io.IOException;
 import java.util.List;
 
@@ -22,19 +21,21 @@ import model.User;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Login() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public Login() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		String nextURL = "/Login.jsp";
 		String useremail = request.getParameter("useremail");
@@ -43,32 +44,34 @@ public class Login extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		User user = null;
-		session.setAttribute("user", user);
-		session.setAttribute("gravatarURL", DbUtil.getGravatarURL(useremail, 50));
-		session.setAttribute("gravatarURLsmall", new DbUtil());
 		if (DbUser.isValidUser(useremail, password)) {
 			user = DbUser.getUserByEmail(useremail);
 			session.setAttribute("user", user);
+			session.setAttribute("gravatarURL", DbUtil.getGravatarURL(useremail, 50));
+			session.setAttribute("gravatarURLsmall", new DbUtil());
 			String role = user.getUserrole();
-			nextURL = "/Home.jsp?role="+role;
+			nextURL = "/Home.jsp?role=" + role;
+			
+			List<Gradebook> gradebooks;
+			gradebooks = user.getGradebooks();
+			session.setAttribute("grades", gradebooks);
+
+			List<Gradebook> Allgradebooks;
+			Allgradebooks = DbGradebook.gradebook();
+			session.setAttribute("Allgrades", Allgradebooks);
 		}
-		List <Gradebook> gradebooks ;
-		gradebooks = user.getGradebooks();
-		session.setAttribute("grades",gradebooks);
-		
-		List <Gradebook> Allgradebooks ;
-		Allgradebooks = DbGradebook.gradebook();
-		session.setAttribute("Allgrades",Allgradebooks);
-		
+
 		getServletContext().getRequestDispatcher(nextURL).forward(request, response);
 		// response.sendRedirect(request.getContextPath() + nextURL);
-	
+
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

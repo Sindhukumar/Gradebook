@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,61 +7,39 @@
 <title>Navbar</title>
 </head>
 <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <img src="images/bullhornlogo50x50.png" alt="Bullhorn Logo"/>&nbsp;<h2>Gradebook</h2>
-    </div>
+	<header class="header">
+	<div role="navigation" class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a href="#all" class="navbar-brand scroll-to"><img
+					src="images/gradebook.png" alt="logo" class="hidden-xs hidden-sm" height="50" width="50"><img
+					src="images/gradebook.png" alt="logo" class="visible-xs visible-sm" height="50" width="50"><span
+					class="sr-only">Go to homepage</span></a>
+				<div class="navbar-buttons">
+					<button type="button" data-toggle="collapse"
+						data-target=".navbar-collapse" class="navbar-toggle navbar-btn">
+						Menu<i class="pe-7s-menu"></i>
+					</button>
+				</div>
+				
+			</div>
+			<div id="navigation" class="collapse navbar-collapse navbar-right">
+				<ul class="nav navbar-nav">
+				<li><% if (session.getAttribute("user") != null) { %>
+					<a href="Profile.jsp?action=viewprofile"><img
+							alt="${user.username}" src="${gravatarURL}" height="30" width="30" />&nbsp;${user.username}</a>
+					<% } %></li>
+					<li><a href="#features" class="scroll-to">Features</a></li>
+					<li><a href="#text" class="scroll-to">Text </a></li>
+					<li><a href="#integrations" class="scroll-to">Integrations</a></li>
+					<li><a href="#testimonials" class="scroll-to">Testimonials</a></li>
+					<li><a href="#contact" class="scroll-to">Contact</a></li>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
- 
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="Output.jsp">Home<span class="sr-only">(current)</span></a></li>
-        <li><a href="newsfeed.jsp">News Feed</a></li>      
-      </ul>
-    
-      <form class="navbar-form navbar-right" role="search" action="Search" method="get">
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" name="searchtext">
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-    
-      <ul class="nav navbar-nav navbar-right">
-      <% if (session.getAttribute("user") != null) { %>
-        <li><a href="Profile.jsp?action=viewprofile"><img alt="${user.username}" src="${gravatarURL}"/>&nbsp;${user.username}</a></li>
-      <% } %>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User Options <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li>
-              <!-- <li><a href="LoginServlet?action=logout">Logout</a></li>-->
-              <!-- Bootstrap allows me to put a form here and it will show in the navbar.
-                   I want to use a form so it can call the servlet with the Post method.              
-               -->
-               <form class="navbar-form navbar-left" role="form" action="Login.jsp" method="post">
-                  <input type="hidden" name="action" id="action" value="logout"/>
-                  <button class="btn btn-default" id="addBookButton">Logout</button>        
-               </form>
-            </li>
-            <li><a href="newsfeed.jsp?action=my">Show my Posts</a></li>
-            <li><a href="Profile.jsp?action=editprofile">Edit Profile</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="support.jsp">Feedback</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+				</ul>
+			</div>
+		</div>
+	</div>
+	</header>
 
 </body>
 </html>

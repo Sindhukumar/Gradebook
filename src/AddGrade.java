@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Tool.DbGradebook;
+import Tool.DbUser;
 import model.Gradebook;
 import model.User;
 
 /**
  * Servlet implementation class Update
  */
-@WebServlet("/Update")
-public class Update extends HttpServlet {
+@WebServlet("/AddGrade")
+public class AddGrade extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public Update() {
+	public AddGrade() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -34,17 +35,6 @@ public class Update extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String nextURL = "/Update.jsp";
-		int gradebookID = Integer.parseInt(request.getParameter("gradebookid"));
-
-		HttpSession session = request.getSession();
-
-		Gradebook gradebook = DbGradebook.gradebook(gradebookID);
-		session.setAttribute("grade", gradebook);
-
-		getServletContext().getRequestDispatcher(nextURL).forward(request, response);
-		// response.sendRedirect(request.getContextPath() + nextURL);
-
 	}
 
 	/**
@@ -54,24 +44,30 @@ public class Update extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		String nextURL="/AddGrade.jsp";
 		String assignment = request.getParameter("assignment");
 		String assignmenttype = request.getParameter("assignmenttype");
 		String grade = request.getParameter("grade");
 		String subject = request.getParameter("subject");
-		int gradebookid = Integer.parseInt(request.getParameter("gradebookid"));
+		int userid = Integer.parseInt(request.getParameter("userid"));
+		User usertoadd = DbUser.getUser(userid);
+		if(null==usertoadd){
+			nextURL="/AddGrade.jsp?isvaliduserid=false";
+		}
+		else{
 		HttpSession session = request.getSession();
-		Gradebook tmp = (Gradebook) session.getAttribute("grade");
 		Gradebook gradebook = new Gradebook();
 		gradebook.setAssignment(assignment);
 		gradebook.setAssignmenttype(assignmenttype);
 		gradebook.setGrade(grade);
-		gradebook.setGradebookid(gradebookid);
+		
+		
+		gradebook.setUser(usertoadd);
 		gradebook.setSubject(subject);
-		gradebook.setUser(tmp.getUser());
-		DbGradebook.update(gradebook);
+		DbGradebook.insert(gradebook);
 		User user = (User) session.getAttribute("user");
-		String nextURL = "/Login?useremail=" + user.getUseremail() + "&password=" + user.getUserpassword();
+		nextURL = "/Login?useremail=" + user.getUseremail() + "&password=" + user.getUserpassword();
+		}
 		getServletContext().getRequestDispatcher(nextURL).forward(request, response);
 		// doGet(request, response);
 	}
